@@ -17,7 +17,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 app.use(cors({
-  origin: ['http://localhost:3000', 'https://dpaportal.apps.xplat.fis.com.vn/']
+  origin: ['http://localhost:3000', 'https://dpaportal.apps.xplat.fis.com.vn']
 }));
 app.use(logger('dev'));
 app.use(express.json());
