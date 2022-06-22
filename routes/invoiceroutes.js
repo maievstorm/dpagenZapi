@@ -21,4 +21,13 @@ router.post('/', async function(req, res, next) {
   }
 });
 
+/* GET invoice by item_name */
+router.get('/:item_name', async function(req, res, next) {
+  try {
+    res.json(await getInvoiceByItem(req.params.item_name));
+  } catch (err) {
+    next(err);
+  }
+});
+
 module.exports = router;
