@@ -9,7 +9,7 @@ const db = pgp(config.db);
 async function getInvoice(page = 1) {
     const offset = (page - 1) * [config.rowsPerPage];
     return db.task(async t => {
-        const data = await t.any("SELECT id, customer_invoice_data, subscription_id, plan_history_id, invoice_period_start_date, invoice_period_end_date, invoice_description, invoice_amount, invoice_created_ts, invoice_due_ts, invoice_paid_ts FROM dpzconf.invoice", [offset, config.rowsPerPage]);
+        const data = await t.any("SELECT id,item_name, customer_invoice_data, subscription_id, plan_history_id, invoice_period_start_date, invoice_period_end_date, invoice_description, invoice_amount, invoice_created_ts, invoice_due_ts, invoice_paid_ts FROM dpzconf.invoice", [offset, config.rowsPerPage]);
         const meta = { page };
         return {
             data,
@@ -31,7 +31,7 @@ async function createInvoice(body) {
 
 async function getInvoiceByItem(item_name) {
     return db.task(async t => {
-        const data = await t.one("SELECT id, customer_invoice_data, subscription_id, plan_history_id, invoice_period_start_date,invoice_period_end_date, invoice_description, invoice_amount, invoice_created_ts, invoice_due_ts,  invoice_paid_ts FROM dpzconf.invoice WHERE item_name = $1", [item_name]);
+        const data = await t.one("SELECT id,item_name, customer_invoice_data, subscription_id, plan_history_id, invoice_period_start_date,invoice_period_end_date, invoice_description, invoice_amount, invoice_created_ts, invoice_due_ts,  invoice_paid_ts FROM dpzconf.invoice WHERE item_name = $1", [item_name]);
         return {
             data
         }

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getInvoice, createInvoice } = require('../controllers/invoice');
+const { getInvoice, createInvoice,getInvoiceByItem } = require('../controllers/invoice');
 
 /* GET invoice list */
 router.get('/', async function(req, res, next) {
