@@ -39,9 +39,22 @@ async function getInvoiceByItem(item_name) {
 }
 
 
+async function getInvoiceBysub(subscription_id) {
+    return db.task(async t => {
+        const data = await t.any("SELECT id,item_name, customer_invoice_data, subscription_id, plan_history_id, invoice_period_start_date,invoice_period_end_date, invoice_description, invoice_amount, invoice_created_ts, invoice_due_ts,  invoice_paid_ts FROM dpzconf.invoice WHERE subscription_id = $1", [subscription_id]);
+        return {
+            data
+        }
+    });
+}
+
+
+
+
 
 module.exports = {
     getInvoice,
     createInvoice,
-    getInvoiceByItem
+    getInvoiceByItem,
+    getInvoiceBysub
 }
