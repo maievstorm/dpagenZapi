@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { getInvoice, createInvoice,getInvoiceByItem,getInvoiceBysub } = require('../controllers/invoice');
+const { getInvoice, createInvoice,getInvoiceByItem,getInvoiceBysub,updateInvoice } = require('../controllers/invoice');
 
 /* GET invoice list */
 router.get('/', async function(req, res, next) {
@@ -30,10 +30,19 @@ router.get('/:item_name', async function(req, res, next) {
   }
 });
 
-/* GET invoice by item_name */
+/* GET invoice by subscription */
 router.get('/subscription/:subscription_id', async function(req, res, next) {
   try {
     res.json(await getInvoiceBysub(req.params.subscription_id));
+  } catch (err) {
+    next(err);
+  }
+});
+
+/* UPDATE invoice */
+router.put('/:id', async function(req, res, next) {
+  try {
+    res.json(await updateInvoice(req.params.id, req.body));
   } catch (err) {
     next(err);
   }
