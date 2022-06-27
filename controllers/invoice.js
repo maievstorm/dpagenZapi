@@ -69,11 +69,23 @@ async function updateInvoice(id, body) {
     });
 }
 
+
+async function getInvoiceByusernamentype(username,item_type) {
+    return db.task(async t => {
+        const data = await t.any("select e.user_name,a.id id_invoice,b.id subscription_id, a.customer_invoice_data, a.subscription_id, a.plan_history_id, a.invoice_period_start_date, a.invoice_period_end_date, a.invoice_description, a.invoice_amount, a.invoice_created_ts, a.invoice_due_ts, a.invoice_paid_ts, a.item_name, a.item_type from dpzconf.invoice a join dpzconf.subscription b on (a.subscription_id=b.id) join dpzconf.user_group c on (c.id=b.user_group_id) join dpzconf.in_group d on  (c.id=d.user_group_id) join dpzconf.user_account e on (d.user_account_id=e.id) where e.user_name= $1 and a.item_type= $2", [username,item_type]);
+        return {
+            data
+        }
+    });
+}
+
 module.exports = {
     getInvoice,
     createInvoice,
     getInvoiceByItem,
     getInvoiceBysub,
     getInvoiceBysubntype,
+    getInvoiceByusernamentype,
     updateInvoice
+    
 }
