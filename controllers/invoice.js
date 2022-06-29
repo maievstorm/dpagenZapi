@@ -60,7 +60,7 @@ async function getInvoiceBysubntype(subscription_id,item_type) {
 
 async function updateInvoice(id, body) {
     return db.task(async t => {
-        const data = await t.one("UPDATE pzconf.invoice SET customer_invoice_data=$2, invoice_description=$3 " +
+        const data = await t.one("UPDATE dpzconf.invoice SET customer_invoice_data=$2, invoice_description=$3 " +
         " WHERE id=$1 RETURNING id", [id,body.customer_invoice_data, body.invoice_description]);
         
         return {
