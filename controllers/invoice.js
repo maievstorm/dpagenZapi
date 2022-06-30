@@ -69,6 +69,17 @@ async function updateInvoice(id, body) {
     });
 }
 
+async function updateInvoicebuyitemname(item_name, body) {
+    return db.task(async t => {
+        const data = await t.one("UPDATE dpzconf.invoice SET customer_invoice_data=$2, invoice_description=$3 " +
+        " WHERE item_name=$1 RETURNING id", [item_name,body.customer_invoice_data, body.invoice_description]);
+        
+        return {
+            data
+        }
+    });
+}
+
 
 async function getInvoiceByusernamentype(username,item_type) {
     return db.task(async t => {
@@ -86,6 +97,7 @@ module.exports = {
     getInvoiceBysub,
     getInvoiceBysubntype,
     getInvoiceByusernamentype,
-    updateInvoice
+    updateInvoice,
+	updateInvoicebuyitemname
     
 }
