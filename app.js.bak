@@ -11,8 +11,6 @@ var productRouter = require('./routes/product');
 var checksongRouter=require('./routes/checksongroutes');
 var invoiceRouter = require('./routes/invoiceroutes');
 var master_crawlRouter = require('./routes/master_crawlroutes');
-var subscriptionRouter=require('./routes/subscriptionroutes');
-var useraccountRouter = require('./routes/useraccountroutes');
 
 var app = express();
 
@@ -35,8 +33,6 @@ app.use('/api/v1/product', productRouter);
 app.use('/api/v1/checksong', checksongRouter);
 app.use('/api/v1/invoice', invoiceRouter);
 app.use('/api/v1/mastercrawl',master_crawlRouter);
-app.use('/api/v1/useraccount',useraccountRouter);
-app.use('/api/v1/subscription',subscriptionRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
