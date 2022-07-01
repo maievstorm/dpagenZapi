@@ -30,7 +30,7 @@ async function getSubscriptionbyUserName(user_name){
 async function createSubscription(body) {
     return db.tx(async t => {
         const prod = await t.one("INSERT INTO dpzconf.subscription(user_group_id,trial_period_start_date,trial_period_end_date,subscribe_after_trial,current_plan_id,offer_id,offer_start_date,offer_end_date,date_subscribed,valid_to,date_unsubscribed,insert_ts)" + 
-        "VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id", [body.user_group_id,body.trial_period_start_date,body.trial_period_end_date,body.subscribe_after_trial,body.current_plan_id,body.offer_id,body.offer_start_date,body.offer_end_date,body.date_subscribed,body.valid_to,body.date_unsubsciribed,body.insert_ts]);
+        "VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING id", [body.user_group_id,body.trial_period_start_date,body.trial_period_end_date,body.subscribe_after_trial,body.current_plan_id,body.offer_id,body.offer_start_date,body.offer_end_date,body.date_subscribed,body.valid_to,body.date_unsubsciribed,body.insert_ts,body.requestsub_id]);
         return {
             prod
         }
