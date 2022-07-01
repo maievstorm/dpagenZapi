@@ -38,7 +38,7 @@ app.use('/api/v1/invoice', invoiceRouter);
 app.use('/api/v1/mastercrawl',master_crawlRouter);
 app.use('/api/v1/useraccount',useraccountRouter);
 app.use('/api/v1/subscription',subscriptionRouter);
-app.use('/api/v1//requestsub',requestsubRoute);
+app.use('/api/v1/requestsub',requestsubRoute);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
