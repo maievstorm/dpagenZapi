@@ -20,7 +20,7 @@ async function getSubscription(page = 1) {
 
 async function getSubscriptionbyUserName(user_name){
     return db.task(async t => {
-        const data = await t.any("SELECT d.user_name, a.id subscription_id, a.user_group_id FROM dpzconf.subscription a JOIN dpzconf.user_group b on (a.user_group_id=b.id) JOIN dpzconf.in_group c on (c.user_group_id = b.id) JOIN dpzconf.user_account d on (d.id = c.user_account_id) WHERE d.user_name=$1", [user_name]);
+        const data = await t.any("SELECT d.user_name, a.id subscription_id, a.user_group_id FROM dpzconf.subscription a JOIN dpzconf.user_group b on (a.user_group_id=b.id) JOIN dpzconf.in_group c on (c.user_group_id = b.id) JOIN dpzconf.user_account d on (d.id = c.user_account_id) WHERE a.date_unsubscribed is null and d.user_name=$1", [user_name]);
         return {
             data,
         }

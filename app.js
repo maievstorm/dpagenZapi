@@ -13,6 +13,7 @@ var invoiceRouter = require('./routes/invoiceroutes');
 var master_crawlRouter = require('./routes/master_crawlroutes');
 var subscriptionRouter=require('./routes/subscriptionroutes');
 var useraccountRouter = require('./routes/useraccountroutes');
+var requestsubRoute  = require('./routes/requestsubroutes'); 
 
 var app = express();
 
@@ -37,6 +38,7 @@ app.use('/api/v1/invoice', invoiceRouter);
 app.use('/api/v1/mastercrawl',master_crawlRouter);
 app.use('/api/v1/useraccount',useraccountRouter);
 app.use('/api/v1/subscription',subscriptionRouter);
+app.use('/api/v1//requestsub',requestsubRoute);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
