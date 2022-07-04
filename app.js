@@ -14,6 +14,7 @@ var master_crawlRouter = require('./routes/master_crawlroutes');
 var subscriptionRouter=require('./routes/subscriptionroutes');
 var useraccountRouter = require('./routes/useraccountroutes');
 var requestsubRoute  = require('./routes/requestsubroutes'); 
+var offerRouter = require("./routes/offerroutes");
 
 var app = express();
 
@@ -39,6 +40,7 @@ app.use('/api/v1/mastercrawl',master_crawlRouter);
 app.use('/api/v1/useraccount',useraccountRouter);
 app.use('/api/v1/subscription',subscriptionRouter);
 app.use('/api/v1/requestsub',requestsubRoute);
+app.use('/api/v1/offer', offerRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
