@@ -15,6 +15,21 @@ var subscriptionRouter=require('./routes/subscriptionroutes');
 var useraccountRouter = require('./routes/useraccountroutes');
 var requestsubRoute  = require('./routes/requestsubroutes'); 
 var offerRouter = require("./routes/offerroutes");
+var productRouter = require('./routes/product');
+var checksongRouter=require('./routes/checksongroutes');
+var invoiceRouter = require('./routes/invoiceroutes');
+var includeRouter = require('./routes/includeroutes');
+var optionRouter = require('./routes/optionroutes');
+var optionincludeRouter = require('./routes/optionincludedroutes');
+var usergroupRouter = require('./routes/usergrouproutes');
+var usergrouptypeRouter = require('./routes/usergrouptyperoutes');
+var ingroupRouter=require('./routes/ingrouproutes');
+var planRouter=require('./routes/planroutes');
+var planhistoryRouter=require('./routes/planhistoryroutes');
+var prerequisiteRouter=require('./routes/prerequisiteroutes');
+var softwareRouter=require('./routes/softwareroutes');
+
+
 
 var app = express();
 
@@ -41,6 +56,16 @@ app.use('/api/v1/useraccount',useraccountRouter);
 app.use('/api/v1/subscription',subscriptionRouter);
 app.use('/api/v1/requestsub',requestsubRoute);
 app.use('/api/v1/offer', offerRouter);
+app.use('/api/v1/option', optionRouter);
+app.use('/api/v1/optionincluded',optionincludeRouter);
+app.use('/api/v1/usergroup',usergroupRouter);
+app.use('/api/v1/usergrouptype',usergrouptypeRouter);
+app.use('/api/v1/ingroup',ingroupRouter);
+app.use('/api/v1/plan',planRouter);
+app.use('/api/v1/planhistory',planhistoryRouter);
+app.use('/api/v1/prerequisite',prerequisiteRouter);
+app.use('/api/v1/software',softwareRouter)
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

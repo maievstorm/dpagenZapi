@@ -30,7 +30,7 @@ async function getRequestsubbyUserName(user_name){
 async function createRequestsub(body) {
     return db.tx(async t => {
         const prod = await t.one("INSERT INTO dpzconf.requestsub(user_account_id, user_name, fullname, email, upassword, offer_id, plan_id, request_date, request_status)" + 
-        "VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id", [body.user_account_id,body.user_name,body.fullname,body.upassword,body.email,body.offer_id,body.plan_id,body.request_date,body.request_status]);
+        "VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING id", [body.user_account_id,body.user_name,body.fullname,body.email,body.upassword,body.offer_id,body.plan_id,body.request_date,body.request_status]);
         return {
             prod
         }
