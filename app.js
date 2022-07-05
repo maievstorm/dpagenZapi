@@ -51,6 +51,7 @@ app.use('/users', usersRouter);
 app.use('/api/v1/product', productRouter);
 app.use('/api/v1/checksong', checksongRouter);
 app.use('/api/v1/invoice', invoiceRouter);
+app.use('/api/v1/include', includeRouter);
 app.use('/api/v1/mastercrawl',master_crawlRouter);
 app.use('/api/v1/useraccount',useraccountRouter);
 app.use('/api/v1/subscription',subscriptionRouter);
