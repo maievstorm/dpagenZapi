@@ -2,8 +2,19 @@ const express = require('express');
 const router = express.Router();
 const { getInvoice, createInvoice,getInvoiceByItem,getInvoiceBysub,getInvoiceBysubntype,getInvoiceByusernamentype,updateInvoice,updateInvoicebuyitemname } = require('../controllers/invoice');
 
+/* GET invoice by username and itemtype */
+router.get('/usernamentype', async function(req, res, next) {
+ 
+  try {
+    res.json(await getInvoiceByusernamentype(req.query.user_name,req.query.item_type));
+  } catch (err) {
+    next(err);
+  }
+});
+
 /* GET invoice list */
 router.get('/', async function(req, res, next) {
+  
   try {
     res.json(await getInvoice(req.query.page));
   } catch (err) {
@@ -14,6 +25,7 @@ router.get('/', async function(req, res, next) {
 
 /* POST invoice */
 router.post('/', async function(req, res, next) {
+  
   try {
     res.json(await createInvoice(req.body));
   } catch (err) {
@@ -23,6 +35,7 @@ router.post('/', async function(req, res, next) {
 
 /* GET invoice by item_name */
 router.get('/:item_name', async function(req, res, next) {
+  
   try {
     res.json(await getInvoiceByItem(req.params.item_name));
   } catch (err) {
@@ -48,14 +61,7 @@ router.get('/subntype/:subscription_id&:item_type', async function(req, res, nex
   }
 });
 
-/* GET invoice by username and itemtype */
-router.get('/usernamentype', async function(req, res, next) {
-  try {
-    res.json(await getInvoiceByusernamentype(req.params.user_name,req.params.item_type));
-  } catch (err) {
-    next(err);
-  }
-});
+
 
 /* UPDATE invoice */
 router.put('/:id', async function(req, res, next) {
