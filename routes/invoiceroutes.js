@@ -49,7 +49,7 @@ router.get('/subntype/:subscription_id&:item_type', async function(req, res, nex
 });
 
 /* GET invoice by username and itemtype */
-router.get('/usernamentype/:user_name&:item_type', async function(req, res, next) {
+router.get('/usernamentype', async function(req, res, next) {
   try {
     res.json(await getInvoiceByusernamentype(req.params.user_name,req.params.item_type));
   } catch (err) {
