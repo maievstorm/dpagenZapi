@@ -29,6 +29,7 @@ var planhistoryRouter = require('./routes/planhistoryroutes');
 var prerequisiteRouter = require('./routes/prerequisiteroutes');
 var softwareRouter = require('./routes/softwareroutes');
 var keycloakRouter = require('./routes/keycloak.routes.js');
+var kafkaRouters=require ('./routes/kafkaroutes')
 
 
 
@@ -68,6 +69,7 @@ app.use('/api/v1/planhistory', planhistoryRouter);
 app.use('/api/v1/prerequisite', prerequisiteRouter);
 app.use('/api/v1/software', softwareRouter)
 app.use('/api/v1/keycloak', keycloakRouter)
+app.use('/api/v1/kafka', kafkaRouters)
 
 
 // catch 404 and forward to error handler
