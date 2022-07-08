@@ -10,8 +10,8 @@ const { getKafkaConnectorsall,
 router.get('/', getKafkaConnectorsall);
 router.get('/connector', getKafkaConnector);
 router.get('/connectorstatus', getKafkaConnectorStatus);
-router.get('/pauseconnector', pauseKafkaConnector);
-router.get('/restartconnector', restartKafkaConnector);
-router.get('/createkafkaconnector', createKafkaConnector);
+router.put('/pauseconnector', pauseKafkaConnector);
+router.post('/restartconnector', restartKafkaConnector);
+router.post('/createkafkaconnector', createKafkaConnector);
 
 module.exports = router;
