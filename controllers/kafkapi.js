@@ -76,7 +76,6 @@ async function createKafkaConnector(req, res) {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
-
     }
   })
     .then(data => {
