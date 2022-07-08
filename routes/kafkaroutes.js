@@ -8,7 +8,7 @@ const { getKafkaConnectorsall,
     createKafkaConnector } = require('../controllers/kafkapi.js');
 
 router.get('/', getKafkaConnectorsall);
-router.get('/connector', getKafkaConnector);
+router.get('/kafkaconnector', getKafkaConnector);
 router.get('/connectorstatus', getKafkaConnectorStatus);
 router.put('/pauseconnector', pauseKafkaConnector);
 router.post('/restartconnector', restartKafkaConnector);

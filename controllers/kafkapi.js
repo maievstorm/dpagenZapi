@@ -71,8 +71,8 @@ async function createKafkaConnector(req, res) {
   let data = req.body
   axios({
     method: 'POST',
-    url: `http://kafkadpa-headless:8083/connectors`,
-    json: data,
+    url: 'http://kafkadpa-headless:8083/connectors',
+    data: data,
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
@@ -82,7 +82,10 @@ async function createKafkaConnector(req, res) {
       return res.status(200).json({
         data: data.data
       })
-    })
+    }).catch(e=> {console.log(e) 
+      return res.status(200).json({
+        message: e
+      })})
 }
 
 
