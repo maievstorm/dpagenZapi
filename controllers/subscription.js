@@ -62,6 +62,30 @@ async function createSubscriptionforAccountandGroup(body){
     });
 }
 
+async function createSubscriptionforGroup(body){
+    return db.tx(async t => {
+        const group = await t.one("INSERT INTO dpzconf.user_group(user_group_type_id, customer_invoice_data, insert_ts)"+
+        "VALUES($1, $2, $3) RETURNING id", [body.user_group_type_id, body.customer_invoice_data, body.insert_ts]);
+         
+        body.ingroup.map(v => {
+            return db.tx(async t2 => {
+                await t2.one("INSERT INTO dpzconf.in_group(user_group_id,user_account_id,time_added,time_removed,group_admin)"+
+                "VALUES ($1,$2,$3,$4,$5) RETURNING id",[group.id,body.acount_id,v.time_added,v.time_removed,v.group_admin]);
+            });
+        });
+        body.subscription.map(v => {
+            return db.tx(async t2 => {
+                await t2.one("INSERT INTO dpzconf.subscription(user_group_id, trial_period_start_date, trial_period_end_date, subscribe_after_trial, current_plan_id, offer_id, offer_start_date, offer_end_date, date_subscribed, valid_to, date_unsubscribed, insert_ts, requestsub_id)"+
+                "VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING id", [group.id,v.trial_period_start_date,v.trial_period_end_date,v.subscribe_after_trial,v.current_plan_id,v.offer_id,v.offer_start_date,v.offer_end_date,v.date_subscribed,v.valid_to,v.date_unsubscribed,v.insert_ts,v.requestsub_id]);
+            });
+        });        
+        return{
+            group,
+            account
+        }
+    });
+}
+
 async function updateSubscription(id, body) {
     return db.task(async t => {
         const data = await t.one("UPDATE dpzconf.subscription SET user_group_id=$1,trial_period_start_date=$2" + " WHERE id=$3 RETURNING id", [body.user_group_id, body.trial_period_start_date, id]);
@@ -78,6 +102,7 @@ module.exports = {
     getSubscriptionbyUserName,
     createSubscription,
     createSubscriptionforAccountandGroup,
+    createSubscriptionforGroup,
     updateSubscription
     
 }

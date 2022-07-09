@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const {getSubscription,getSubscriptionbyUserName,createSubscription,updateSubscription,createSubscriptionforAccountandGroup} = require('../controllers/subscription');
+const {getSubscription,getSubscriptionbyUserName,createSubscription,updateSubscription,
+  createSubscriptionforAccountandGroup,
+  createSubscriptionforGroup} = require('../controllers/subscription');
 
 router.get('/', async function(req, res, next) {
     try {
@@ -26,9 +28,16 @@ router.post('/', async function(req, res, next) {
     }
   });
 
-  router.post('/user', async function(req, res, next) {
+  router.post('/creategroupusersub', async function(req, res, next) {
     try {
       res.json(await createSubscriptionforAccountandGroup(req.body));
+    } catch (err) {
+      next(err);
+    }
+  });
+  router.post('/creategroupsub', async function(req, res, next) {
+    try {
+      res.json(await createSubscriptionforGroup(req.body));
     } catch (err) {
       next(err);
     }
