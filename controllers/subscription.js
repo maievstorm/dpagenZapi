@@ -66,10 +66,9 @@ async function createSubscriptionforGroup(body){
     return db.tx(async t => {
         const group = await t.one("INSERT INTO dpzconf.user_group(user_group_type_id, customer_invoice_data, insert_ts)"+
         "VALUES($1, $2, $3) RETURNING id", [body.user_group_type_id, body.customer_invoice_data, body.insert_ts]);
-         
         body.ingroup.map(v => {
-            return db.tx(async t2 => {
-                await t.one("INSERT INTO dpzconf.in_group(user_group_id,user_account_id,time_added,time_removed,group_admin)"+
+            return db.tx(async t1 => {
+                await t1.one("INSERT INTO dpzconf.in_group(user_group_id,user_account_id,time_added,time_removed,group_admin)"+
                 "VALUES ($1,$2,$3,$4,$5) RETURNING id",[group.id,body.account_id,v.time_added,v.time_removed,v.group_admin]);
             });
         });
