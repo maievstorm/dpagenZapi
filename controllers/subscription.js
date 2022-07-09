@@ -70,7 +70,7 @@ async function createSubscriptionforGroup(body){
         body.ingroup.map(v => {
             return db.tx(async t2 => {
                 await t.one("INSERT INTO dpzconf.in_group(user_group_id,user_account_id,time_added,time_removed,group_admin)"+
-                "VALUES ($1,$2,$3,$4,$5) RETURNING id",[group.id,body.acount_id,v.time_added,v.time_removed,v.group_admin]);
+                "VALUES ($1,$2,$3,$4,$5) RETURNING id",[group.id,body.account_id,v.time_added,v.time_removed,v.group_admin]);
             });
         });
         body.subscription.map(v => {
@@ -80,8 +80,7 @@ async function createSubscriptionforGroup(body){
             });
         });        
         return{
-            group,
-            account
+            group            
         }
     });
 }
