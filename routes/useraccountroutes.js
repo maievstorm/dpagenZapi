@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const {getUserAccount,getUserNamebySubscription,postUserAccount,putUserAccount} = require("../controllers/useraccount");
+const {getUserAccount,getUserNamebySubscription,postUserAccount,putUserAccount,getUserAccountID} = require("../controllers/useraccount");
 
 router.get('/', async function (req,res,next){
     try {
@@ -9,6 +9,14 @@ router.get('/', async function (req,res,next){
         next(err);
     }
 });
+router.get('/accountbyusername/:username', async function (req,res,next){
+    try {
+        res.json(await getUserNamebySubscription(req.params.username));
+    } catch (err) {
+        next(err);
+    }
+});
+
 
 router.get('/usernamebysub/:id', async function (req,res,next){
     try {

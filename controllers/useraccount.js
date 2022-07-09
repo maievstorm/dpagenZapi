@@ -27,11 +27,20 @@ async function getUserNamebySubscription(id){
     })
 }
 
+async function getUserAccountID(username){
+    return db.task(async t => {
+        const data = await t.one("SELECT id, first_name, last_name, user_name, password, email, confirmation_code, confirmation_time, insert_ts FROM dpzconf.user_account WHERE user_name = $1",[username]);
+        return {
+            data
+        }
+    })
+}
+
 async function postUserAccount(body){
     return db.tx(async t => {
-        const prod = await t.one("INSERT INTO dpzconf.user_account(first_name, last_name, user_name, password, email, confirmation_code, confirmation_time, insert_ts)" + "VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id", [body.first_name, body.last_name, body.user_name, body.password, body.email, body.confirmation_code, body.confirmation_time, body.insert_ts]);
+        const data = await t.one("INSERT INTO dpzconf.user_account(first_name, last_name, user_name, password, email, confirmation_code, confirmation_time, insert_ts)" + "VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id", [body.first_name, body.last_name, body.user_name, body.password, body.email, body.confirmation_code, body.confirmation_time, body.insert_ts]);
         return {
-            prod
+            data
         }
     });
 }
@@ -50,5 +59,6 @@ module.exports = {
     getUserAccount,
     getUserNamebySubscription,
     postUserAccount,
-    putUserAccount
+    putUserAccount,
+    getUserAccountID
 }
