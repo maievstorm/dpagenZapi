@@ -27,7 +27,7 @@ async function getUserNamebySubscription(id){
     })
 }
 
-async function getUserAccountID(username){
+async function getUserAccountInfo(username){
     return db.task(async t => {
         const data = await t.one("SELECT id, first_name, last_name, user_name, password, email, confirmation_code, confirmation_time, insert_ts FROM dpzconf.user_account WHERE user_name = $1",[username]);
         return {
@@ -60,5 +60,5 @@ module.exports = {
     getUserNamebySubscription,
     postUserAccount,
     putUserAccount,
-    getUserAccountID
+    getUserAccountInfo
 }
