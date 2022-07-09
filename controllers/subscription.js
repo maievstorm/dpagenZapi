@@ -73,8 +73,8 @@ async function createSubscriptionforGroup(body){
             });
         });
         body.subscription.map(v => {
-            return db.tx(async t2 => {
-                await t2.one("INSERT INTO dpzconf.subscription(user_group_id, trial_period_start_date, trial_period_end_date, subscribe_after_trial, current_plan_id, offer_id, offer_start_date, offer_end_date, date_subscribed, valid_to, date_unsubscribed, insert_ts, requestsub_id)"+
+            return db.tx(async t1 => {
+                await t1.one("INSERT INTO dpzconf.subscription(user_group_id, trial_period_start_date, trial_period_end_date, subscribe_after_trial, current_plan_id, offer_id, offer_start_date, offer_end_date, date_subscribed, valid_to, date_unsubscribed, insert_ts, requestsub_id)"+
                 "VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING id", [group.id,v.trial_period_start_date,v.trial_period_end_date,v.subscribe_after_trial,v.current_plan_id,v.offer_id,v.offer_start_date,v.offer_end_date,v.date_subscribed,v.valid_to,v.date_unsubscribed,v.insert_ts,v.requestsub_id]);
             });
         });        
