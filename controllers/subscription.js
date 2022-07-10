@@ -9,7 +9,7 @@ const db = pgp(config.db);
 async function getSubscription(page = 1) {
     const offset = (page - 1) * [config.rowsPerPage];
     return db.task(async t => {
-        const data = await t.any("select id,user_group_id,trial_period_start_date,trial_period_end_date,subscribe_after_trial,current_plan_id,offer_id,offer_start_date,offer_end_date,date_subscribed,valid_to,date_unsubscribed,insert_ts from dpzconf.subscription", [offset, config.rowsPerPage]);
+        const data = await t.any("select id,user_group_id,trial_period_start_date,trial_period_end_date,subscribe_after_trial,current_plan_id,offer_id,offer_start_date,offer_end_date,date_subscribed,valid_to,date_unsubscribed,insert_ts,subscription_name from dpzconf.subscription", [offset, config.rowsPerPage]);
         const meta = {page};
         return {
             data,
@@ -20,7 +20,7 @@ async function getSubscription(page = 1) {
 
 async function getSubscriptionbyUserName(user_name){
     return db.task(async t => {
-        const data = await t.any("SELECT d.user_name, a.id subscription_id, a.user_group_id FROM dpzconf.subscription a JOIN dpzconf.user_group b on (a.user_group_id=b.id) JOIN dpzconf.in_group c on (c.user_group_id = b.id) JOIN dpzconf.user_account d on (d.id = c.user_account_id) WHERE d.user_name=$1", [user_name]);
+        const data = await t.any("SELECT d.user_name, a.id subscription_id, a.user_group_id,a.subscription_name FROM dpzconf.subscription a JOIN dpzconf.user_group b on (a.user_group_id=b.id) JOIN dpzconf.in_group c on (c.user_group_id = b.id) JOIN dpzconf.user_account d on (d.id = c.user_account_id) WHERE d.user_name=$1", [user_name]);
         return {
             data
         }
@@ -29,8 +29,8 @@ async function getSubscriptionbyUserName(user_name){
 
 async function createSubscription(body) {
     return db.tx(async t => {
-        const prod = await t.one("INSERT INTO dpzconf.subscription(user_group_id,trial_period_start_date,trial_period_end_date,subscribe_after_trial,current_plan_id,offer_id,offer_start_date,offer_end_date,date_subscribed,valid_to,date_unsubscribed,insert_ts)" + 
-        "VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12) RETURNING id", [body.user_group_id,body.trial_period_start_date,body.trial_period_end_date,body.subscribe_after_trial,body.current_plan_id,body.offer_id,body.offer_start_date,body.offer_end_date,body.date_subscribed,body.valid_to,body.date_unsubsciribed,body.insert_ts]);
+        const prod = await t.one("INSERT INTO dpzconf.subscription(user_group_id,trial_period_start_date,trial_period_end_date,subscribe_after_trial,current_plan_id,offer_id,offer_start_date,offer_end_date,date_subscribed,valid_to,date_unsubscribed,insert_ts,subscription_name)" + 
+        "VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12,$13) RETURNING id", [body.user_group_id,body.trial_period_start_date,body.trial_period_end_date,body.subscribe_after_trial,body.current_plan_id,body.offer_id,body.offer_start_date,body.offer_end_date,body.date_subscribed,body.valid_to,body.date_unsubsciribed,body.insert_ts,body.subscription_name]);
         return {
             prod
         }
@@ -51,8 +51,8 @@ async function createSubscriptionforAccountandGroup(body){
         });
         body.subscription.map(v => {
             return db.tx(async t2 => {
-                await t2.one("INSERT INTO dpzconf.subscription(user_group_id, trial_period_start_date, trial_period_end_date, subscribe_after_trial, current_plan_id, offer_id, offer_start_date, offer_end_date, date_subscribed, valid_to, date_unsubscribed, insert_ts, requestsub_id)"+
-                "VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING id", [group.id,v.trial_period_start_date,v.trial_period_end_date,v.subscribe_after_trial,v.current_plan_id,v.offer_id,v.offer_start_date,v.offer_end_date,v.date_subscribed,v.valid_to,v.date_unsubscribed,v.insert_ts,v.requestsub_id]);
+                await t2.one("INSERT INTO dpzconf.subscription(user_group_id, trial_period_start_date, trial_period_end_date, subscribe_after_trial, current_plan_id, offer_id, offer_start_date, offer_end_date, date_subscribed, valid_to, date_unsubscribed, insert_ts,subscription_name, requestsub_id)"+
+                "VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14) RETURNING id", [group.id,v.trial_period_start_date,v.trial_period_end_date,v.subscribe_after_trial,v.current_plan_id,v.offer_id,v.offer_start_date,v.offer_end_date,v.date_subscribed,v.valid_to,v.date_unsubscribed,v.insert_ts,v.subscription_name,v.requestsub_id]);
             });
         });        
         return{
@@ -74,8 +74,8 @@ async function createSubscriptionforGroup(body){
         });
         body.subscription.map(v => {
             return db.tx(async t1 => {
-                await t1.one("INSERT INTO dpzconf.subscription(user_group_id, trial_period_start_date, trial_period_end_date, subscribe_after_trial, current_plan_id, offer_id, offer_start_date, offer_end_date, date_subscribed, valid_to, date_unsubscribed, insert_ts, requestsub_id)"+
-                "VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13) RETURNING id", [group.id,v.trial_period_start_date,v.trial_period_end_date,v.subscribe_after_trial,v.current_plan_id,v.offer_id,v.offer_start_date,v.offer_end_date,v.date_subscribed,v.valid_to,v.date_unsubscribed,v.insert_ts,v.requestsub_id]);
+                await t1.one("INSERT INTO dpzconf.subscription(user_group_id, trial_period_start_date, trial_period_end_date, subscribe_after_trial, current_plan_id, offer_id, offer_start_date, offer_end_date, date_subscribed, valid_to, date_unsubscribed, insert_ts,subscription_name, requestsub_id)"+
+                "VALUES($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14) RETURNING id", [group.id,v.trial_period_start_date,v.trial_period_end_date,v.subscribe_after_trial,v.current_plan_id,v.offer_id,v.offer_start_date,v.offer_end_date,v.date_subscribed,v.valid_to,v.date_unsubscribed,v.insert_ts,v.subscription_name,v.requestsub_id]);
             });
         });        
         return{
