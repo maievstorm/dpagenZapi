@@ -1,9 +1,12 @@
 var createError = require('http-errors');
+require('dotenv').config()
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var cors = require('cors')
+var bodyParser = require('body-parser');
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -32,8 +35,9 @@ var keycloakRouter = require('./routes/keycloak.routes.js');
 var kafkaRouters=require ('./routes/kafkaroutes')
 
 
-
 var app = express();
+
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
