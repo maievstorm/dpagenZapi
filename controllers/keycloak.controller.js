@@ -1,6 +1,5 @@
 const axios = require('axios').default;
 
-const KcAdminClient = require('@keycloak/keycloak-admin-client').default;;
 
 async function getAdminToken() {
     let response
