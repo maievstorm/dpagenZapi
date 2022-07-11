@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { getAllUser,getInfo } = require('../controllers/keycloak.controller.js');
+const { addUser,getInfo ,changePassword} = require('../controllers/keycloak.controller.js');
 
-router.get('/', getAllUser);
+router.post('/addUser', addUser);
 router.get('/info', getInfo);
+
+router.post('/changePassword', changePassword);
 
 module.exports = router;
