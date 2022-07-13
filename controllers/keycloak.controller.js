@@ -53,6 +53,7 @@ async function addUser(req, res) {
     let email = req.body.email
     let password = req.body.password
     let policy = req.body.policy
+    console.log(policy)
 
 
     let request_data = JSON.stringify({
@@ -79,9 +80,9 @@ async function addUser(req, res) {
             "value": password,
             "temporary": false
         }],
-        "attributes":[{
+        "attributes": {
             "policy":policy
-        }],
+        },
         "realmRoles": ["user"]
     });
     getAdminToken()
