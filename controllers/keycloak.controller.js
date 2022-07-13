@@ -52,6 +52,8 @@ async function addUser(req, res) {
     let lastName = req.body.lastName
     let email = req.body.email
     let password = req.body.password
+    let policy = req.body.policy
+
 
     let request_data = JSON.stringify({
         "createdTimestamp": Date.now(),
@@ -76,6 +78,9 @@ async function addUser(req, res) {
             "type": "password",
             "value": password,
             "temporary": false
+        }],
+        "attributes":[{
+            "policy":policy
         }],
         "realmRoles": ["user"]
     });
