@@ -37,8 +37,13 @@ async function getUserAccountInfo(username){
 }
 
 async function postUserAccount(body){
+    let confirmation_time =  new Date().toLocaleString()
+    let insert_ts =  new Date().toLocaleString()
+    let confirmation_code = 1
+
     return db.tx(async t => {
-        const data = await t.one("INSERT INTO dpzconf.user_account(first_name, last_name, user_name, password, email, confirmation_code, confirmation_time, insert_ts)" + "VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id", [body.first_name, body.last_name, body.user_name, body.password, body.email, body.confirmation_code, body.confirmation_time, body.insert_ts]);
+        const data = await t.one("INSERT INTO dpzconf.user_account(first_name, last_name, user_name, password, email, confirmation_code, confirmation_time, insert_ts)" + "VALUES($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id", 
+        [body.first_name, body.last_name, body.user_name, body.password, body.email, confirmation_code, confirmation_time, insert_ts]);
         return {
             data
         }
