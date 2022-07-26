@@ -42,7 +42,7 @@ async function updateRequestsub(id, body) {
     console.log(id)
     console.log(body.request_status)
     return db.task(async t => {
-        const data = await t.one("update dpzconf.requestsub set request_status=$2" + " WHERE id=$1 RETURNING id", [id, body.request_status]);
+        const data = await t.one("update dpzconf.requestsub set request_status=$2 ,approve_user=$3,approve_dt=now()" + " WHERE id=$1 RETURNING id", [id, body.request_status,body.approve_user]);
 
         return {
             data
