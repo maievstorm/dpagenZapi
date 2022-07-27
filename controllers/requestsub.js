@@ -66,7 +66,7 @@ async function updateRequestType(req, res) {
 
 async function getResourceusageUserName(user_name) {
     return db.task(async t => {
-        const data = await t.any("SELECT id, username, subscription_id, item_type, useage, price, rpt_dt, rpt_year, rpt_month FROM dpzconf.resourceusage WHERE  user_name=$1", [user_name]);
+        const data = await t.any("SELECT id, username, subscription_id, item_type, useage, price, rpt_dt, rpt_year, rpt_month FROM dpzconf.resourceusage WHERE  username=$1", [user_name]);
         return {
             data,
         }
