@@ -42,7 +42,7 @@ async function updateRequestsub(id, body) {
     console.log(id)
     console.log(body.request_status)
     return db.task(async t => {
-        const data = await t.one("update dpzconf.requestsub set request_status=$2 ,approve_user=$3,approve_dt=now()" + " WHERE id=$1 RETURNING id", [id, body.request_status,body.approve_user]);
+        const data = await t.one("update dpzconf.requestsub set request_status=$2 ,approve_user=$3,approve_dt=now()" + " WHERE id=$1 RETURNING id", [id, body.request_status, body.approve_user]);
 
         return {
             data
@@ -73,6 +73,30 @@ async function getResourceusageUserName(user_name) {
     });
 }
 
+async function aggregateResource(req, res) {
+    let userName = req.query.userName
+
+    console.log(userName)
+
+    try {
+        const data = await db.any("SELECT item_type, rpt_year, rpt_month, sum(price) FROM dpzconf.resourceusage WHERE username=$1 group by item_type, rpt_year, rpt_month", [userName]);
+
+        console.log(data)
+        return res.status(200).json({
+            data: data,
+            message: 'get data successfully!'
+        })
+
+    } catch (error) {
+        return res.status(200).json({
+            message: 'error!'
+        })
+
+    }
+
+
+}
+
 
 module.exports = {
     getRequestsub,
@@ -80,6 +104,7 @@ module.exports = {
     createRequestsub,
     updateRequestsub,
     updateRequestType,
-    getResourceusageUserName
+    getResourceusageUserName,
+    aggregateResource
 
 }

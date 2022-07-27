@@ -5,7 +5,8 @@ const { getRequestsub,
   createRequestsub,
   updateRequestsub,
   updateRequestType,
-  getResourceusageUserName
+  getResourceusageUserName,
+  aggregateResource
 } = require('../controllers/requestsub');
 
 router.get('/', async function (req, res, next) {
@@ -15,6 +16,9 @@ router.get('/', async function (req, res, next) {
     next(err);
   }
 });
+
+router.get('/resourceusageusername/aggregateResource', aggregateResource);
+
 
 router.get('/reqsubbyusername/:user_name', async function (req, res, next) {
   try {
