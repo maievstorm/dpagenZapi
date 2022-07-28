@@ -79,7 +79,7 @@ async function aggregateResource(req, res) {
     console.log(userName)
 
     try {
-        const data = await db.any("SELECT item_type, rpt_year, rpt_month, sum(price) FROM dpzconf.resourceusage WHERE username=$1 group by item_type, rpt_year, rpt_month", [userName]);
+        const data = await db.any("SELECT username, item_type, rpt_dt, rpt_year, rpt_month, price_total_year, price_total_month, useage, price FROM dpzconf.user_resource WHERE username=$1", [userName]);
 
         console.log(data)
         return res.status(200).json({
