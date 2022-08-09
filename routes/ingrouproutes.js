@@ -3,7 +3,6 @@ const router = express.Router();
 const { getIn_group, createIn_group, updateIn_group, deleteInGroup } = require('../controllers/ingroup');
 
 
-
 router.put('/deleteInGroup', deleteInGroup)
 
 

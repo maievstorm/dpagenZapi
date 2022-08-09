@@ -19,11 +19,10 @@ async function getIn_group(page = 1) {
 }
 
 async function createIn_group(body) {
-
     return db.tx(async t => {
         const data = await t.one(`INSERT INTO dpzconf.in_group(user_group_id,user_account_id,time_added,time_removed,group_admin )
         select user_group_id,user_account_id,time_added,time_removed,group_admin
-        from ( select $1 user_group_id, $2 user_account_id, TO_TIMESTAMP($3,'MM/DD/YYYY, HH:MI:SS') time_added, TO_TIMESTAMP($4,'MM/DD/YYYY, HH:MI:SS') time_removed, $5 group_admin ) a
+        from ( select $1 user_group_id, $2 user_account_id, TO_TIMESTAMP($3,'DD-MM-YYYY HH24.MI.SS') time_added, TO_TIMESTAMP($4,'DD-MM-YYYY HH24.MI.SS') time_removed, $5 group_admin ) a
         where not exists (select 1 from  dpzconf.in_group b where a.user_group_id=b.user_group_id and a.user_account_id=b.user_account_id) RETURNING id`, [body.user_group_id, body.user_account_id, body.time_added, body.time_removed, body.group_admin]);
         return {
             data
