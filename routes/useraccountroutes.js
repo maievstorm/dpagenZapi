@@ -9,9 +9,9 @@ router.get('/', async function (req,res,next){
         next(err);
     }
 });
-router.get('/accountbyusername/:username', async function (req,res,next){
+router.get('/accountbyusername', async function (req,res,next){
     try {
-        res.json(await getUserAccountInfo(req.params.username));
+        res.json(await getUserAccountInfo(req.query.username));
     } catch (err) {
         next(err);
     }
