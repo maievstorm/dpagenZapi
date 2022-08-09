@@ -20,13 +20,17 @@ async function getIn_group(page = 1) {
 
 async function createIn_group(body) {
     return db.tx(async t => {
-        const prod = await t.one("INSERT INTO dpzconf.in_group(user_group_id,user_account_id,time_added,time_removed,group_admin )" +
-            "VALUES($1, $2, $3, $4, $5) RETURNING id", [body.user_group_id, body.user_account_id, body.time_added, body.time_removed, body.group_admin]);
+        const prod = await t.one(`INSERT INTO dpzconf.in_group(user_group_id,user_account_id,time_added,time_removed,group_admin )
+        select user_group_id,user_account_id,time_added,time_removed,group_admin
+        from ( select $1 user_group_id, $2 user_account_id, $3 time_added, $4 time_removed, $5 group_admin ) a
+        where not exists (select 1 from  dpzconf.in_group b where a.user_group_id=b.user_group_id and a.user_account_id=b.user_account_id) RETURNING id`, [body.user_group_id, body.user_account_id, body.time_added, body.time_removed, body.group_admin]);
         return {
             prod
         }
     });
 }
+
+
 
 async function deleteInGroup(req, res) {
     console.log('hihi')
