@@ -42,7 +42,7 @@ async function updateRequestsub(id, body) {
     console.log(id)
     console.log(body.request_status)
     return db.task(async t => {
-        const data = await t.one("update dpzconf.requestsub set request_status=$2" + " WHERE id=$1 RETURNING id", [id, body.request_status]);
+        const data = await t.one("update dpzconf.requestsub set request_status=$2 ,approve_user=$3,approve_dt=now()" + " WHERE id=$1 RETURNING id", [id, body.request_status, body.approve_user]);
 
         return {
             data
@@ -64,12 +64,47 @@ async function updateRequestType(req, res) {
     });
 }
 
+async function getResourceusageUserName(user_name) {
+    return db.task(async t => {
+        const data = await t.any("SELECT id, username, subscription_id, item_type, useage, price, rpt_dt, rpt_year, rpt_month FROM dpzconf.resourceusage WHERE  username=$1", [user_name]);
+        return {
+            data,
+        }
+    });
+}
+
+async function aggregateResource(req, res) {
+    let userName = req.query.userName
+
+    console.log(userName)
+
+    try {
+        const data = await db.any("SELECT username, item_type, rpt_dt, rpt_year, rpt_month, price_total_year, price_total_month, useage, price FROM dpzconf.user_resource WHERE username=$1", [userName]);
+
+        console.log(data)
+        return res.status(200).json({
+            data: data,
+            message: 'get data successfully!'
+        })
+
+    } catch (error) {
+        return res.status(200).json({
+            message: 'error!'
+        })
+
+    }
+
+
+}
+
 
 module.exports = {
     getRequestsub,
     getRequestsubbyUserName,
     createRequestsub,
     updateRequestsub,
-    updateRequestType
+    updateRequestType,
+    getResourceusageUserName,
+    aggregateResource
 
 }

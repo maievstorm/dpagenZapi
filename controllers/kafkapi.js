@@ -9,7 +9,10 @@ async function getKafkaConnectorsall(req, res) {
       return res.status(200).json({
         data: data.data
       })
-    })
+    }).catch(e=> {console.log(e) 
+      return res.status(500).json({
+        message: e
+      })})
 }
 
 async function getKafkaConnector(req, res) {
@@ -22,7 +25,10 @@ async function getKafkaConnector(req, res) {
       return res.status(200).json({
         data: data.data
       })
-    })
+    }).catch(e=> {console.log(e) 
+      return res.status(500).json({
+        message: e
+      })})
 }
 
 
@@ -36,7 +42,10 @@ async function getKafkaConnectorStatus(req, res) {
       return res.status(200).json({
         data: data.data
       })
-    })
+    }).catch(e=> {console.log(e) 
+      return res.status(500).json({
+        message: e
+      })})
 }
 
 
@@ -50,7 +59,10 @@ async function pauseKafkaConnector(req, res) {
       return res.status(200).json({
         data: data.data
       })
-    })
+    }).catch(e=> {console.log(e) 
+      return res.status(500).json({
+        message: e
+      })})
 }
 
 async function restartKafkaConnector(req, res) {
@@ -63,7 +75,10 @@ async function restartKafkaConnector(req, res) {
       return res.status(200).json({
         data: data.data
       })
-    })
+    }).catch(e=> {console.log(e) 
+      return res.status(500).json({
+        message: e
+      })})
 }
 
 
@@ -83,7 +98,7 @@ async function createKafkaConnector(req, res) {
         data: data.data
       })
     }).catch(e=> {console.log(e) 
-      return res.status(200).json({
+      return res.status(500).json({
         message: e
       })})
 }
