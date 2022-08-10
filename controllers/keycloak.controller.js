@@ -130,7 +130,7 @@ async function getUserInfo(req, res) {
         url: `${server}/auth/admin/realms/${realm}/users`,
         params: {
             username: username,
-            email:email
+            email: email
         },
         headers: { "Authorization": `Bearer ${access_token}` },
     })
@@ -142,10 +142,20 @@ async function getUserInfo(req, res) {
             })
         })
         .catch(err => {
-            res.status(200).json({
-                status: 401,
-                message: err.response?.data
-            })
+            if (err.response.status === 401) {
+                return res.status(200).json({
+                    status: err.response.status,
+                    message: err.response?.data
+                })
+            }
+            else {
+                return res.status(200).json({
+                    status: 0,
+                    message: err.response?.data
+                })
+
+            }
+
         })
 }
 
@@ -176,11 +186,19 @@ async function changePassword(req, res) {
             })
         })
         .catch(err => {
-            console.log(err)
-            res.status(200).json({
-                status: 401,
-                message: err.response?.data
-            })
+            if (err.response.status === 401) {
+                return res.status(200).json({
+                    status: err.response.status,
+                    message: err.response?.data
+                })
+            }
+            else {
+                return res.status(200).json({
+                    status: 0,
+                    message: err.response?.data
+                })
+
+            }
         })
 }
 module.exports = {
