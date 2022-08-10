@@ -32,7 +32,7 @@ async function getUserSubscription(req, res) {
     let userName = req.query.userName
     console.log(userName)
 
-    let query = `select a.*,b.user_name,c.customer_invoice_data from dpzconf.in_group a 
+    let query = `select a.*,b.user_name,b.email,c.customer_invoice_data from dpzconf.in_group a 
                 join dpzconf.user_account b on (a.user_account_id=b.id)
                 join dpzconf.user_group c on ( a.user_group_id=c.id)
                 where a.user_group_id in (

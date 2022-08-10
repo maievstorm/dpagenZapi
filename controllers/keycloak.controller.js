@@ -8,12 +8,9 @@ async function getAdminToken() {
         let realm = 'dpa'
         const params = new URLSearchParams({
             grant_type: process.env.KEYCLOAK_GRANT_TYPE,
-
             client_id: process.env.KEYCLOAK_CLIENT_ID,
-
             username: process.env.KEYCLOAK_USERNAME,
             password: process.env.KEYCLOAK_PASSWORD
-
         });
         response = await axios({
             method: 'post',
@@ -45,6 +42,7 @@ async function getInfo(req, res) {
         })
         .catch(err => console.log(err))
 }
+
 
 async function addUser(req, res) {
     let username = req.body.username
@@ -80,7 +78,7 @@ async function addUser(req, res) {
             "temporary": false
         }],
         "attributes": {
-            "policy":policy
+            "policy": policy
         },
         "realmRoles": ["user"]
     });
@@ -113,18 +111,80 @@ async function addUser(req, res) {
 
         })
         .catch(error => {
-            console.log(error)
             return res.status(200).json({
-                message: 'Error get token'
+                message: error
             })
         })
 }
 
-async function changePassword(req, res) {
+async function getUserInfo(req, res) {
+    let server = 'https://sso-fis-mbf-dplat.apps.xplat.fis.com.vn'
+    let realm = 'dpa'
+    let username = req.body.username
+    let email = req.body.email
 
+    let access_token = req.body.access_token
+
+    axios({
+        method: 'get',
+        url: `${server}/auth/admin/realms/${realm}/users`,
+        params: {
+            username: username,
+            email:email
+        },
+        headers: { "Authorization": `Bearer ${access_token}` },
+    })
+        .then(data => {
+            return res.status(200).json({
+                status: 1,
+                data: data.data,
+                message: 'get user information successfully!'
+            })
+        })
+        .catch(err => {
+            res.status(200).json({
+                status: 0,
+                message: err.response?.data
+            })
+        })
+}
+
+
+async function changePassword(req, res) {
+    let server = 'https://sso-fis-mbf-dplat.apps.xplat.fis.com.vn'
+    let realm = 'dpa'
+    let userId = req.body.userId
+    let access_token = req.body.access_token
+    let newPassword = req.body.newPassword
+
+    axios({
+        method: 'put',
+        url: `${server}/auth/admin/realms/${realm}/users/${userId}/reset-password`,
+        data: {
+            "type": "password",
+            "temporary": false,
+            "value": newPassword
+        },
+        headers: { "Authorization": `Bearer ${access_token}` },
+    })
+        .then(data => {
+            return res.status(200).json({
+                data: {
+                    newPassword: newPassword
+                },
+                message: 'update password successfully!'
+            })
+        })
+        .catch(err => {
+            console.log(err)
+            res.status(200).json({
+                message: 'update password fail!'
+            })
+        })
 }
 module.exports = {
     getInfo,
     addUser,
-    changePassword
+    changePassword,
+    getUserInfo
 }
