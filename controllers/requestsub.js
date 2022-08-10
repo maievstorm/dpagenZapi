@@ -28,6 +28,8 @@ async function getRequestsubbyUserName(user_name) {
 }
 
 async function createRequestsub(body) {
+    console.log(body)
+
     return db.tx(async t => {
         const prod = await t.one("INSERT INTO dpzconf.requestsub(user_account_id, user_name, fullname, email, upassword, offer_id, plan_id, request_date, request_status,request_type)" +
             "VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9,$10) RETURNING id", [body.user_account_id, body.user_name, body.fullname, body.email, body.upassword, body.offer_id, body.plan_id, body.request_date, body.request_status, body.request_type]);
@@ -76,7 +78,6 @@ async function getResourceusageUserName(user_name) {
 async function aggregateResource(req, res) {
     let userName = req.query.userName
 
-    console.log(userName)
 
     try {
         const data = await db.any("SELECT username, item_type, rpt_dt, rpt_year, rpt_month, price_total_year, price_total_month, useage, price FROM dpzconf.user_resource WHERE username=$1", [userName]);
