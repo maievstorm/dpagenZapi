@@ -143,7 +143,7 @@ async function getUserInfo(req, res) {
         })
         .catch(err => {
             res.status(200).json({
-                status: 0,
+                status: 401,
                 message: err.response?.data
             })
         })
@@ -178,7 +178,8 @@ async function changePassword(req, res) {
         .catch(err => {
             console.log(err)
             res.status(200).json({
-                message: 'update password fail!'
+                status: 401,
+                message: err.response?.data
             })
         })
 }
